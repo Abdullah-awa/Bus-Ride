@@ -4,16 +4,198 @@
 	},
 	"language": "Solidity",
 	"output": {
-		"abi": [],
+		"abi": [
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "rideId",
+						"type": "uint256"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "operator",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "OperatorWithdrawn",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "rideId",
+						"type": "uint256"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "operator",
+						"type": "address"
+					}
+				],
+				"name": "RideAccepted",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "rideId",
+						"type": "uint256"
+					}
+				],
+				"name": "RideCancelled",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "rideId",
+						"type": "uint256"
+					}
+				],
+				"name": "RideCompleted",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "rideId",
+						"type": "uint256"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "passenger",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "fareWei",
+						"type": "uint256"
+					}
+				],
+				"name": "RideRequested",
+				"type": "event"
+			},
+			{
+				"inputs": [],
+				"name": "nextRideId",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address payable",
+						"name": "_operator",
+						"type": "address"
+					}
+				],
+				"name": "requestRide",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "rides",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address payable",
+						"name": "passenger",
+						"type": "address"
+					},
+					{
+						"internalType": "address payable",
+						"name": "operator",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "fareWei",
+						"type": "uint256"
+					},
+					{
+						"internalType": "enum RideShare.Status",
+						"name": "status",
+						"type": "uint8"
+					},
+					{
+						"internalType": "bool",
+						"name": "operatorWithdrawn",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
 		"devdoc": {
 			"kind": "dev",
-			"methods": {},
+			"methods": {
+				"requestRide(address)": {
+					"params": {
+						"_operator": "operator address that will accept the ride"
+					}
+				}
+			},
 			"title": "Simple Ride Escrow Contract for Bus Rides",
 			"version": 1
 		},
 		"userdoc": {
 			"kind": "user",
-			"methods": {},
+			"methods": {
+				"requestRide(address)": {
+					"notice": "Passenger requests a ride and deposits fare"
+				}
+			},
 			"notice": "Demonstrates sender (passenger), receiver (operator) and blockchain as middle layer",
 			"version": 1
 		}
@@ -35,11 +217,11 @@
 	},
 	"sources": {
 		"RideShare.sol": {
-			"keccak256": "0x4ec6419295e8e2f5b3e42caaa1ac02b7efe47eef12b7c1b128eaf513c5771f59",
+			"keccak256": "0xb8baced4da94aea0c004db377fc35034f448b48b7014ecc246bda26f2b2e3169",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://f6dd11c9948d5c4b005cb2641c1e77835613909a4a0c72dc9073e49ba32906ce",
-				"dweb:/ipfs/QmWiUvWJmM4vQhqHavMWpJLbRnRocJz5PoBHvL1UnkJCzs"
+				"bzz-raw://4707eea0d3431c5dce50796ea08c8e167f5a4b0d819bbf5593f12661da8ec5e6",
+				"dweb:/ipfs/QmTTk4Xb5tnpntfcsNvXDHj37nPpVtaUpRWCHiHYghCTUx"
 			]
 		}
 	},
