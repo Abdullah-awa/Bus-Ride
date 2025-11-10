@@ -14,5 +14,41 @@ contract RideShare {
         Status status;
         bool operatorWithdrawn;
     }
+ uint256 public nextRideId;
+    mapping(uint256 => Ride) public rides;
 
+    // Events
+    event RideRequested(uint256 indexed rideId, address indexed passenger, uint256 fareWei);
+    event RideAccepted(uint256 indexed rideId, address indexed operator);
+    event RideCompleted(uint256 indexed rideId);
+    event RideCancelled(uint256 indexed rideId);
+    event OperatorWithdrawn(uint256 indexed rideId, address indexed operator, uint256 amount);
+
+    // Modifiers
+    modifier onlyPassenger(uint256 _rideId) {
+        require(msg.sender == rides[_rideId].passenger, "Only passenger");
+        _;
+    }
+
+    modifier onlyOperator(uint256 _rideId) {
+        require(msg.sender == rides[_rideId].operator, "Only operator");
+        _;
+    }
+
+    /// @notice Passenger requests a ride and deposits fare
+    /// @param _operator operator address that will accept the ride
+    function requestRide(address payable _operator) external payable returns (uint256) {
+        require(msg.value > 0, "Fare must be > 0");
+        uint256 rideId = nextRideId++;
+        rides[rideId] = Ride({
+            id: rideId,
+            passenger: payable(msg.sender),
+            operator: _operator,
+            fareWei: msg.value,
+            status: Status.Requested,
+            operatorWithdrawn: false
+        });
+        emit RideRequested(rideId, msg.sender, msg.value);
+        return rideId;
+    }
 }
