@@ -51,4 +51,12 @@ contract RideShare {
         emit RideRequested(rideId, msg.sender, msg.value);
         return rideId;
     }
+     /// @notice Operator accepts the ride
+   function acceptRide(uint256 _rideId) external {
+    Ride storage r = rides[_rideId];
+    require(r.status == Status.Requested, "Ride not requested");
+    require(msg.sender == r.operator, "Only designated operator can accept");
+    r.status = Status.Accepted;
+    emit RideAccepted(_rideId, msg.sender);
+}
 }
