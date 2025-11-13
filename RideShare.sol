@@ -59,4 +59,28 @@ contract RideShare {
     r.status = Status.Accepted;
     emit RideAccepted(_rideId, msg.sender);
 }
+
+
+    /// @notice Operator marks ride as completed
+    function completeRide(uint256 _rideId) external onlyOperator(_rideId) {
+        Ride storage r = rides[_rideId];
+        require(r.status == Status.Accepted, "Ride must be accepted");
+        r.status = Status.Completed;
+        emit RideCompleted(_rideId);
+    }
+
+    /// @notice Passenger cancels a requested ride before acceptance
+    function cancelRide(uint256 _rideId) external onlyPassenger(_rideId) {
+        Ride storage r = rides[_rideId];
+        require(r.status == Status.Requested, "Only pending rides can be cancelled");
+        r.status = Status.Cancelled;
+        // Refund passenger
+        uint256 amount = r.fareWei;
+        r.fareWei = 0;
+        (bool sent, ) = r.passenger.call{value: amount}("");
+        require(sent, "Refund failed");
+        emit RideCancelled(_rideId);
+    }
+
+
 }
