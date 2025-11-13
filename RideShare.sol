@@ -82,5 +82,22 @@ contract RideShare {
         emit RideCancelled(_rideId);
     }
 
+/// @notice Operator withdraws funds after completion (pull pattern)
+    function withdraw(uint256 _rideId) external onlyOperator(_rideId) {
+        Ride storage r = rides[_rideId];
+        require(r.status == Status.Completed, "Ride not completed");
+        require(!r.operatorWithdrawn, "Already withdrawn");
+        r.operatorWithdrawn = true;
+        uint256 amount = r.fareWei;
+        r.fareWei = 0;
+        (bool sent, ) = r.operator.call{value: amount}("");
+        require(sent, "Withdraw failed");
+        emit OperatorWithdrawn(_rideId, msg.sender, amount);
+    }
+
+    /// @notice Fallback to accept ETH
+    receive() external payable {}
+
 
 }
+
